@@ -31,13 +31,15 @@ jobs:
         ssh-add ~/.ssh/id_rsa
         ssh-keyscan -H gitlab.com >> ~/.ssh/known_hosts
     - name: clone
-      run: git clone ${{ secrets.REPO }} app && cd app
+      run: git clone ${{ secrets.REPO }} app
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
     - name: npm install
-      run: npm install
+      run: |
+        cd app
+        npm install
     - name: main
       run: echo "bbbbb" > a.txt
     - name: git push
