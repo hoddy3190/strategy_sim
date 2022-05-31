@@ -21,9 +21,11 @@ jobs:
 
     steps:
     - name: ssh setting
+      env:
+        PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
         mkdir -p ~/.ssh
-        echo ${{ secrets.SSH_PRIVATE_KEY }} | tr -d '\r' > ~/.ssh/id_rsa
+        echo "$PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
         chmod 700 ~/.ssh/id_rsa
         eval $(ssh-agent -s)
         ssh-add ~/.ssh/id_rsa
