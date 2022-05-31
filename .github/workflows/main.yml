@@ -37,12 +37,13 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: npm install
-      run: |
-        cd app
-        npm install
+      working-directory: ./app
+      run: npm install
     - name: main
+      working-directory: ./app
       run: echo "bbbbb" > a.txt
     - name: git push
+      working-directory: ./app
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
