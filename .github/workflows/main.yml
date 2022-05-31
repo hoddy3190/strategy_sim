@@ -41,12 +41,13 @@ jobs:
       run: npm install
     - name: main
       working-directory: ./app
-      run: echo "bbbbb" > a.txt
+      run: npm run makeShowData > /dev/null
     - name: git push
       working-directory: ./app
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
+        git checkout package-lock.json
         git add .
         git commit -m "data: update by cron"
         git push origin HEAD:master
