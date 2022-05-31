@@ -1,0 +1,42 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: main
+
+on:
+  schedule:
+    # * はYAMLに置ける特殊文字なので、この文字列は引用符で囲まなければならない
+    - cron: '* */1 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - uses: actions/checkout@v3
+      with:
+        repository: ${{ secrets.REPO }}
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - name: npm install
+      run: npm install
+    - name: main
+      run: echo "bbbbb" > a.txt
+    - name: git push
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "data: update by cron"
+        git push origin HEAD:master
