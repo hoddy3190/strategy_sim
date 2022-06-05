@@ -6,7 +6,7 @@ name: main
 on:
   schedule:
     # * はYAMLに置ける特殊文字なので、この文字列は引用符で囲まなければならない
-    - cron: '0 2,10,14,18,22 * * *'
+    - cron: '0 2,10,12,14,16,18,20,22 * * *'
   workflow_dispatch:
 
 jobs:
